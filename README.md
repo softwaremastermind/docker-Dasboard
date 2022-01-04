@@ -1,2 +1,2 @@
 # docker-Dasboard
-Simpe Dashboard written in go
+Simple Dashboard written in go
