@@ -1,8 +1,61 @@
 <!DOCTYPE html>
-<html>
-<body>
+<html class="dark">
+    <head>
+        <title>Dasboard</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            clifford: '#da373d'
+                        }
+                    }
+                }
+            }
+        </script>
+    </head>
+</html>
 
-<div id="id01"></div>
+
+<body>
+<div class="bg-gray-700">
+    <div>
+        <!-- Navbar Component -->
+        <nav class="w-full bg-gray-500 flex justify-between px-6 py-4 shadow-md">
+            <div class="flex space-x-2 items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <h1 class="text-xl font-bold text-white cursor-pointer">Dasboard</h1>
+            </div>
+            <div class="flex space-x-10 items-center">
+                <p class="text-lg cursor-pointer font-semibold text-white">Home</p>
+                <p class="text-lg cursor-pointer font-semibold text-white">About</p>
+            </div>
+        </nav>
+        <!-- Main Component -->
+        <main
+            class="mt-16 h-screen">
+            <!-- Search component -->
+            <div class="flex items-center max-w-xl mx-auto">
+                <form id="form" role="search">
+                    <input type="search" placeholder="Search" id="query" name="q" class="w-full text-lg px-4 py-4 rounded-md rounded-r-none outline-none"/></form>
+                <div class="flex space-x-1">
+                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 transition duration-100 text-xl py-4 px-8 rounded-md rounded-l-none text-white font-semibold">Go</button>
+                </div>
+                <button class="text-xl py-4 px-6 ml-4 rounded-md font-semibold hover:bg-gray-50 transition duration-100 bg-white text-gray-700">Clear</button>
+            </div>
+                <!-- User Results -->
+                <div id="id01" class="flex flex-wrap space-x-4 justify-center"></div>
+          </main>
+<!-- Footer Component -->
+<footer class="bg-gray-800 items-center py-8"><div class="text-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto text-indigo-600" viewbox="0 0 20 20" fill="currentColor">
+<path fill-rule="evenodd" d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z" clip-rule="evenodd"/></svg><p class="text-white text-md">Copyright © 2022 All rights reserved</p></div></footer></div></div>
+
+
 
 <script>
 var resource_timer;
@@ -27,13 +80,34 @@ function myFunction(arr) {
   var out = "";
   var i;
   for(i = 0; i < arr.length; i++) {
-    out += '<a href="' + arr[i].name + '">' +
-    arr[i].name + '</a> ' + arr[i].image + " " + arr[i].state + '<br>';
+out += '<div class="flex p-5 mt-8 space-x-4 items-center shadow-xl max-w-sm rounded-md">' +
+              '<img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="image" class="h-14 w-14 rounded-corner"/>' +
+              '<div><h2 class="text-white font-semibold text-xl">'+arr[i].name+'</h2>' +
+                      '<p class="mt-1 text-gray-400 text-sm cursor-pointer">'+arr[i].image+'</p>' +
+                      '</div></div>';
+
   }
   document.getElementById("id01").innerHTML = out;
   resource_timer = setTimeout(getJSON, 1000);
 }
 </script>
+<script>
+    const f = document.getElementById('form');
+    const q = document.getElementById('query');
+    const google = 'https://www.google.com/search?q=';
+
+    function submitted(event) {
+        event.preventDefault();
+        const url = google + '+' + q.value;
+        const win = window.open(url, '_blank');
+        win.focus();
+    }
+
+
+    f.addEventListener('submit', submitted);
+</script>
+
+
 
 </body>
 </html>

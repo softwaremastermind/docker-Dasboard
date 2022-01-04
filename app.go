@@ -41,7 +41,7 @@ func main() {
 			buffer.WriteString("{" + `"` + "id" + `"` + ":")
 			buffer.WriteString(`"` + container.ID[:10] +`"`)
 			buffer.WriteString("," + `"` + "name" + `"` + ":")
-			buffer.WriteString(`"` + container.Names[0] + `"`)
+			buffer.WriteString(`"` + container.Names[0][1:] + `"`)
 			buffer.WriteString("," + `"` + "image" + `"` + ":")
 			buffer.WriteString(`"` + container.Image + `"`)
 			buffer.WriteString("," + `"` + "state" + `"` + ":")
