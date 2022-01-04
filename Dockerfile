@@ -12,5 +12,6 @@ RUN CGO_ENABLED=0 go build -o /go/bin/app
 
 FROM gcr.io/distroless/static
 
+COPY ./index.html /index.html
 COPY --from=build-env /go/bin/app /
 CMD ["/app"]
