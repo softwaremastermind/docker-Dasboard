@@ -5,6 +5,11 @@
 <div id="id01"></div>
 
 <script>
+var resource_timer;
+
+getJSON()
+
+function getJSON() {
 var xmlhttp = new XMLHttpRequest();
 var url = "/status";
 
@@ -16,15 +21,17 @@ xmlhttp.onreadystatechange = function() {
 };
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
+}
 
 function myFunction(arr) {
   var out = "";
   var i;
   for(i = 0; i < arr.length; i++) {
     out += '<a href="' + arr[i].name + '">' +
-    arr[i].image + '</a><br>';
+    arr[i].name + '</a> ' + arr[i].image + " " + arr[i].state + '<br>';
   }
   document.getElementById("id01").innerHTML = out;
+  resource_timer = setTimeout(getJSON, 1000);
 }
 </script>
 

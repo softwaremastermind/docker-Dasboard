@@ -44,6 +44,8 @@ func main() {
 			buffer.WriteString(`"` + container.Names[0] + `"`)
 			buffer.WriteString("," + `"` + "image" + `"` + ":")
 			buffer.WriteString(`"` + container.Image + `"`)
+			buffer.WriteString("," + `"` + "state" + `"` + ":")
+			buffer.WriteString(`"` + container.State + `"`)
 			buffer.WriteString("},")
 		}
 		buffer.Truncate(buffer.Len()-1)
