@@ -80,11 +80,11 @@ function myFunction(arr) {
   var out = "";
   var i;
   for(i = 0; i < arr.length; i++) {
-out += '<div class="flex p-5 mt-8 space-x-4 items-center shadow-xl max-w-sm rounded-md">' +
+out += '<a href="http://127.0.0.1:'+arr[i].port+'"><div class="flex p-5 mt-8 space-x-4 items-center shadow-xl max-w-sm rounded-md">' +
               '<img src="https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png" alt="image" class="h-14 w-14 rounded-corner"/>' +
-              '<div><h2 class="text-white font-semibold text-xl">'+arr[i].name+'</h2>' +
+              '<div><h2 class="text-white font-semibold text-xl">'+arr[i].name+':'+arr[i].port+'</h2>' +
                       '<p class="mt-1 text-gray-400 text-sm cursor-pointer">'+arr[i].image+'</p>' +
-                      '</div></div>';
+                      '</div></div></a>';
 
   }
   document.getElementById("id01").innerHTML = out;

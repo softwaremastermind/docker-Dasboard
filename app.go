@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/docker/docker/api/types"
@@ -46,6 +47,12 @@ func main() {
 			buffer.WriteString(`"` + container.Image + `"`)
 			buffer.WriteString("," + `"` + "state" + `"` + ":")
 			buffer.WriteString(`"` + container.State + `"`)
+			buffer.WriteString("," + `"` + "port" + `"` + ":")
+			if len(container.Ports) != 0 {
+				buffer.WriteString(`"` + strconv.Itoa(int(container.Ports[0].PublicPort)) + `"`)
+			} else {
+				buffer.WriteString(`"0"`)
+			}
 			buffer.WriteString("},")
 		}
 		buffer.Truncate(buffer.Len()-1)
