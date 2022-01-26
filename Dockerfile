@@ -1,10 +1,9 @@
 FROM golang:1.17 as build-env
 
 WORKDIR /go/src/app
-COPY *.go .
+COPY * .
 
-RUN go mod init
-RUN go get -d -v ./...
+RUN go mod download
 RUN go vet -v
 RUN go test -v
 
