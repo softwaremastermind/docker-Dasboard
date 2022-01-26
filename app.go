@@ -1,64 +1,21 @@
 package main
 
 import (
-	"bytes"
-	"context"
 	"fmt"
-	"net/http"
-	"strconv"
-	"strings"
 
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
+	"github.com/jrsmile/docker-Dasboard/adapters/docker"
+	"github.com/jrsmile/docker-Dasboard/resources"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	ctx := context.Background()
-	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
-	if err != nil {
-		panic(err)
-	}
+	containerEngine := docker.NewDockerContainerEngine()
 
 	fmt.Printf("Started...\n")
 
-    gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
 
-	r.GET("/", func(c *gin.Context) {
-		c.File("index.html")
-	})
-
-	r.GET("/status", func(c *gin.Context) {
-		containers, err := cli.ContainerList(ctx, types.ContainerListOptions{})
-		if err != nil {
-			panic(err)
-		}
-
-		var buffer bytes.Buffer
-		buffer.WriteString("[")
-
-		for _, container := range containers {
-			buffer.WriteString("{" + `"` + "id" + `"` + ":")
-			buffer.WriteString(`"` + container.ID[:10] +`"`)
-			buffer.WriteString("," + `"` + "name" + `"` + ":")
-			buffer.WriteString(`"` + container.Names[0][1:] + `"`)
-			buffer.WriteString("," + `"` + "image" + `"` + ":")
-			buffer.WriteString(`"` + container.Image + `"`)
-			buffer.WriteString("," + `"` + "state" + `"` + ":")
-			buffer.WriteString(`"` + container.State + `"`)
-			buffer.WriteString("," + `"` + "port" + `"` + ":")
-			if len(container.Ports) != 0 {
-				buffer.WriteString(`"` + strconv.Itoa(int(container.Ports[0].PublicPort)) + `"`)
-			} else {
-				buffer.WriteString(`"0"`)
-			}
-			buffer.WriteString("},")
-		}
-		buffer.Truncate(buffer.Len()-1)
-		buffer.WriteString("]")
-		c.DataFromReader(http.StatusOK,
-        int64(len(buffer.String())), gin.MIMEJSON, strings.NewReader(buffer.String()), nil)
-	})
+	r := resources.SetupRouter(containerEngine)
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
