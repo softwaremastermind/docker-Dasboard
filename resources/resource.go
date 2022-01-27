@@ -20,7 +20,8 @@ func SetupRouter(containerEngine usecases.ContainerEngine) *gin.Engine {
 	r := gin.Default()
 	r.GET("/status", createStatusHandler(containerEngine))
 	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "text/html; charset=utf-8", index_html)
+		c.Header("Content-Type", "text/html; charset=utf-8")
+		c.String(http.StatusOK, index_html)
 	})
 	return r
 }
