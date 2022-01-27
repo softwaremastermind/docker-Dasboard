@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
+	"encoding/json"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
@@ -35,30 +34,13 @@ func main() {
 			panic(err)
 		}
 
-		var buffer bytes.Buffer
-		buffer.WriteString("[")
+		u, err := json.Marshal(containers)
+        if err != nil {
+            panic(err)
+        }
 
-		for _, container := range containers {
-			buffer.WriteString("{" + `"` + "id" + `"` + ":")
-			buffer.WriteString(`"` + container.ID[:10] +`"`)
-			buffer.WriteString("," + `"` + "name" + `"` + ":")
-			buffer.WriteString(`"` + container.Names[0][1:] + `"`)
-			buffer.WriteString("," + `"` + "image" + `"` + ":")
-			buffer.WriteString(`"` + container.Image + `"`)
-			buffer.WriteString("," + `"` + "state" + `"` + ":")
-			buffer.WriteString(`"` + container.State + `"`)
-			buffer.WriteString("," + `"` + "port" + `"` + ":")
-			if len(container.Ports) != 0 {
-				buffer.WriteString(`"` + strconv.Itoa(int(container.Ports[0].PublicPort)) + `"`)
-			} else {
-				buffer.WriteString(`"0"`)
-			}
-			buffer.WriteString("},")
-		}
-		buffer.Truncate(buffer.Len()-1)
-		buffer.WriteString("]")
 		c.DataFromReader(http.StatusOK,
-        int64(len(buffer.String())), gin.MIMEJSON, strings.NewReader(buffer.String()), nil)
+        int64(len(string(u))), gin.MIMEJSON, strings.NewReader(string(u)), nil)
 	})
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
